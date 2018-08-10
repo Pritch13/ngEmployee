@@ -35,4 +35,30 @@ router.post('/', (req,res)=> {
     });
 });
 
+router.put('/:id', (req,res)=> {
+    var emp = ({
+        name: req.body.name,
+        position: req.body.position,
+        office: req.body.office,
+        salary: req.body.salary
+    });
+    Employee.findByIdAndUpdate(req.params.id, { $set: emp }, { new: true}, (err, doc)=> {
+        if(!err) {
+            res.send(doc);
+        } else {
+            console.log("Update error " + JSON.stringify(err, undefined, 2)); 
+        }
+    });
+});
+
+router.delete('/:id', (req,res)=> {
+    Employee.findByIdAndRemove(req.params.id, (err, doc)=> {
+        if(!err) {
+            res.send(doc);
+        } else {
+            console.log("Delete error " + JSON.stringify(err, undefined, 2)); 
+        }
+    })
+})
+
 module.exports = router;
